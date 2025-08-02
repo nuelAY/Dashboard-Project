@@ -1,48 +1,72 @@
-// components/Sidebar.tsx
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { Home, BarChart, Settings, X } from 'lucide-react';
+import { Home, BarChart, UserPen, Settings, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const links = [
   { href: '/', icon: Home, label: 'Dashboard' },
-  { href: '/analytics', icon: BarChart, label: 'Analytics' },
-  { href: '/settings', icon: Settings, label: 'Settings' },
+  { href: '/dashboard/users', icon: BarChart, label: 'Users' },
+  { href: '/dashboard/profile', icon: UserPen, label: 'Profile' },
+  { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ];
 
 export function Sidebar({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => void }) {
   const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <>
-      {/* Desktop */}
-      <aside className="hidden md:flex w-64 bg-white dark:bg-gray-900 border-r">
-        <div className="p-4 text-xl font-bold">MyDashboard</div>
-        <nav className="flex flex-col gap-1 p-2 w-full">
-          {links.map(({ href, icon: Icon, label }) => {
-            const isActive = pathname === href;
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={cn(
-                  'flex items-center gap-3 p-2 rounded-md transition font-medium text-sm',
-                  isActive
-                    ? 'bg-muted text-primary'
-                    : 'text-gray-700 dark:text-gray-200 hover:bg-muted'
-                )}
-              >
-                <Icon className="h-4 w-4" />
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
-      </aside>
+      {/* Desktop Sidebar */}
+      <motion.aside
+        animate={{ width: collapsed ? 80 : 260 }}
+        transition={{ duration: 0.25, ease: 'easeInOut' }}
+        className="hidden md:flex flex-col h-screen border-r bg-white dark:bg-gray-900 relative"
+      >
+        <div className="flex justify-between items-center p-4">
+          {!collapsed && <span className="text-lg font-bold">MyDashboard</span>}
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+          >
+            {collapsed ? <Menu size={20} /> : <X size={20} />}
+          </button>
+        </div>
 
-      {/* Mobile */}
+        <nav className="flex flex-col gap-1 px-2">
+          <TooltipProvider>
+            {links.map(({ href, icon: Icon, label }) => {
+              const isActive = pathname === href || pathname.startsWith(`${href}/`);
+              return (
+                <Tooltip key={href}>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={href}
+                      className={cn(
+                        'flex items-center gap-3 p-2 rounded-md transition font-medium text-sm',
+                        isActive
+                          ? 'bg-muted text-primary'
+                          : 'text-gray-700 dark:text-gray-200 hover:bg-muted',
+                        collapsed ? 'justify-center' : ''
+                      )}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {!collapsed && <span>{label}</span>}
+                    </Link>
+                  </TooltipTrigger>
+                  {collapsed && <TooltipContent side="right">{label}</TooltipContent>}
+                </Tooltip>
+              );
+            })}
+          </TooltipProvider>
+        </nav>
+      </motion.aside>
+
+      {/* Mobile Sidebar */}
       {open && (
         <div className="fixed inset-0 z-40 md:hidden bg-black/40" onClick={() => setOpen(false)}>
           <aside
@@ -55,7 +79,7 @@ export function Sidebar({ open, setOpen }: { open: boolean; setOpen: (v: boolean
             </div>
             <nav className="flex flex-col gap-1 p-2">
               {links.map(({ href, icon: Icon, label }) => {
-                const isActive = pathname === href;
+                const isActive = pathname === href || pathname.startsWith(`${href}/`);
                 return (
                   <Link
                     key={href}

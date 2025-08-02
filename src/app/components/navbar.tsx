@@ -1,4 +1,4 @@
-// components/Navbar.tsx
+
 'use client';
 
 import { Menu, Sun, Moon, LogOut, User } from 'lucide-react';
@@ -16,9 +16,18 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import { useEffect, useState } from 'react';
 
 export function Navbar({ setSidebarOpen }: { setSidebarOpen: (v: boolean) => void }) {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; 
 
   return (
     <header className="flex items-center justify-between px-4 md:px-6 py-4 border-b bg-white dark:bg-gray-950">

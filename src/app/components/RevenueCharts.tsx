@@ -9,9 +9,16 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 const chartData = [
   { month: 'Jan', revenue: 2400, orders: 240 },
@@ -25,14 +32,15 @@ const chartData = [
 export default function RevenueChart() {
   const [year, setYear] = useState('2025');
   const [month, setMonth] = useState('All');
+  const { ref, inView } = useInView({ triggerOnce: true });
 
   return (
     <motion.div
+      ref={ref}
       className="bg-white dark:bg-zinc-900 p-6 rounded-2xl shadow-md w-full"
       initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
     >
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold">Revenue & Orders</h3>

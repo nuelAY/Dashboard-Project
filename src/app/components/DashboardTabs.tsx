@@ -3,7 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AnalyticsChart from "./AnalyticsChart";
 import RevenueChart from "./RevenueCharts";
-import { DataTable } from "./Data-Table";
+// import { DataTable } from "./Data-Table";
 
 export default function DashboardTabs() {
   return (
@@ -11,7 +11,7 @@ export default function DashboardTabs() {
       <TabsList className="mb-4">
         <TabsTrigger value="users">User Growth</TabsTrigger>
         <TabsTrigger value="revenue">Revenue</TabsTrigger>
-        <TabsTrigger value="table">User Table</TabsTrigger>
+        {/* <TabsTrigger value="table">User Table</TabsTrigger> */}
       </TabsList>
 
       <TabsContent value="users">
@@ -22,9 +22,9 @@ export default function DashboardTabs() {
         <RevenueChart />
       </TabsContent>
 
-      <TabsContent value="table">
+      {/* <TabsContent value="table">
         <DataTable columns={[]} data={[]} />
-      </TabsContent>
+      </TabsContent> */}
     </Tabs>
   );
 }

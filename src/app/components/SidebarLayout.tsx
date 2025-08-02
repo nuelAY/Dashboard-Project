@@ -1,4 +1,4 @@
-// components/SidebarLayout.tsx
+
 'use client';
 
 import { Sidebar } from './sidebar';
