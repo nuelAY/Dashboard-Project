@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -6,7 +6,7 @@ import { v4 as uuid } from "uuid";
 
 import { columns, User } from "@/app/components/columns";
 import { DataTable } from "@/app/components/Data-Table";
-import { UserForm } from "@/app/components/user-form"; // assumes you've written this
+import { UserForm } from "@/app/components/user-form";
 
 const initialUsers: User[] = [
   { id: "1", name: "John Doe", email: "john@example.com", role: "admin" },
@@ -18,7 +18,6 @@ export default function UsersPage() {
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
-  // Handle form submit (create or update)
   const handleSubmit = (data: Omit<User, "id">) => {
     if (editingUser) {
       setUsers(prev =>
@@ -35,41 +34,41 @@ export default function UsersPage() {
     setEditingUser(null);
   };
 
-  // Handle delete
   const handleDelete = (id: string) => {
     setUsers(prev => prev.filter(user => user.id !== id));
     toast.success("User deleted successfully");
   };
 
-  // Handle edit
   const handleEdit = (user: User) => {
     setEditingUser(user);
   };
 
-  // Memoized column generator with edit & delete
   const column = columns(handleEdit, handleDelete);
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-3xl font-bold">User Management</h2>
+    <div className="space-y-6 px-4 sm:px-6 md:px-8 lg:px-10 py-6 max-w-7xl mx-auto">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center sm:text-left">
+        User Management
+      </h2>
 
-      <div className="border p-4 rounded-xl shadow-sm">
+      <div className="border p-4 sm:p-6 rounded-xl shadow-sm bg-white dark:bg-zinc-900">
         <UserForm
           onSubmit={handleSubmit}
           initialValues={
             editingUser
               ? {
-                name: editingUser.name,
-                email: editingUser.email,
-                role: editingUser.role,
-              }
+                  name: editingUser.name,
+                  email: editingUser.email,
+                  role: editingUser.role,
+                }
               : undefined
           }
         />
-
       </div>
 
-      <DataTable columns={column} data={users} />
+      <div className="overflow-x-auto rounded-xl border shadow-sm bg-white dark:bg-zinc-900">
+        <DataTable columns={column} data={users} />
+      </div>
     </div>
   );
 }
