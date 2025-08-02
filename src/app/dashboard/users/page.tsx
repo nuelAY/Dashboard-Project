@@ -46,27 +46,28 @@ export default function UsersPage() {
   const column = columns(handleEdit, handleDelete);
 
   return (
-    <div className="space-y-6 px-4 sm:px-6 md:px-8 lg:px-10 py-6 max-w-7xl mx-auto">
+    <div className="space-y-6 px-4 sm:px-6 md:px-8 lg:px-10 py-6 sm:max-w-7xl max-w-xl mx-auto">
       <h2 className="text-2xl sm:text-3xl font-bold text-center sm:text-left">
         User Management
       </h2>
 
-      <div className="border p-4 sm:p-6 rounded-xl shadow-sm bg-white dark:bg-zinc-900">
+      <div className="border p-4 sm:p-6 rounded-xl shadow-sm bg-white dark:bg-zinc-900 sm:w-full w-80">
         <UserForm
           onSubmit={handleSubmit}
           initialValues={
             editingUser
               ? {
-                  name: editingUser.name,
-                  email: editingUser.email,
-                  role: editingUser.role,
-                }
+                name: editingUser.name,
+                email: editingUser.email,
+                role: editingUser.role,
+              }
               : undefined
           }
         />
       </div>
 
-      <div className="overflow-x-auto rounded-xl border shadow-sm bg-white dark:bg-zinc-900">
+
+      <div className="overflow-x-auto rounded-xl border shadow-sm bg-white dark:bg-zinc-900 sm:w-full w-80">
         <DataTable columns={column} data={users} />
       </div>
     </div>

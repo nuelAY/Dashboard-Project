@@ -62,9 +62,9 @@ export function UserForm({ onSubmit, initialValues }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 bg-white dark:bg-zinc-900 p-6 rounded-2xl shadow-md w-full max-w-3xl mx-auto"
+        className="space-y-6 bg-white dark:bg-zinc-900 p-4 sm:p-6 rounded-2xl shadow-md w-full max-w-2xl mx-auto"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="name"
@@ -86,11 +86,7 @@ export function UserForm({ onSubmit, initialValues }: Props) {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="user@example.com"
-                    {...field}
-                  />
+                  <Input type="email" placeholder="user@example.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -101,7 +97,7 @@ export function UserForm({ onSubmit, initialValues }: Props) {
             control={form.control}
             name="role"
             render={({ field }) => (
-              <FormItem className="md:col-span-2">
+              <FormItem className="sm:col-span-2">
                 <FormLabel>Role</FormLabel>
                 <FormControl>
                   <Select value={field.value} onValueChange={field.onChange}>
@@ -120,7 +116,7 @@ export function UserForm({ onSubmit, initialValues }: Props) {
           />
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full sm:w-auto">
           {initialValues ? "Update User" : "Create User"}
         </Button>
       </form>
